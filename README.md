@@ -2,6 +2,17 @@
 
 > An agent-ready starter kit for Obsidian community plugin development: scaffold → build → auto-sync → hot-reload. Ships conventions, hard-won pitfalls, and an honest roadmap.
 
+## 定位（请先读）
+
+**这是一个独立开发者用于个人验证与快速实践的工具，也是一个学习项目。** 它把一套「能跑通」的 Obsidian 插件开发工作流沉淀成可复制的起点，**不是**生产级框架、Obsidian 官方标准或团队规范。
+
+- 面向个人 / 小团队快速试错与学习；不承诺覆盖生产发布、多人协作、长期维护的完整需求。
+- 仓库里的品牌名、vault 路径、工具链版本、版本控制系统，都是原作者**自己环境里的实际选择**（见 `CUSTOMIZE.md`）。
+- **推荐按需扩展**：请把它和你自己的项目结构、技术栈、vault 布局、发布流程结合起来调整。`CUSTOMIZE.md` 与 `docs/` 是参考，不是必须遵守的规矩。
+- 标【实测】的结论来自原作者本机，换环境请自行复验；`docs/roadmap.md` 明确列出还没做的部分（尤其 release / 发布阶段）。
+
+一句话：**clone 之后请把它改造成你自己的东西，而不是全盘采纳。**
+
 一套**给 coding agent 用的** Obsidian 插件开发套件。
 
 它本身不是插件，而是一套「开发模式 + 可复制资产」：clone 之后把 `template/` 复制成新插件，把根目录的 `AGENTS.md` 交给你的 Agent，就能快速搭起**脚手架 → 构建 → 自动同步到 vault → 自动热重载 → debug** 这一整套闭环。
@@ -65,7 +76,7 @@ pnpm run dev
 
 ## 不要全采纳
 
-`cbugs-` 前缀、`CBugs` 品牌、`jj` 版本控制、`pnpm@8`、外置盘路径、`@electron/remote` 热重载实现……都是**原作者的实际选择**，不是标准。哪些该换、换成什么，见 `CUSTOMIZE.md`。
+见顶部「定位」小节与 `CUSTOMIZE.md`：品牌名、路径、工具链都是原作者的实际选择，不是标准。
 
 ## License
 

@@ -9,7 +9,7 @@
 | 1 | 开发者品牌 / 插件 ID 前缀 | `cbugs-`、`CBugs`、`cBugs` | `template/manifest.json`、`package.json`、`main.ts`、`rules/*.md`、`hot-reload/manifest.json` | 你自己的前缀与显示名。建议只用一个前缀常量，全局替换 |
 | 2 | vault 插件目录 | 无任何真实路径；模板用 `OBSIDIAN_PLUGINS_DIR` / `.vault-path` | `template/ob-sync.sh`、`template/esbuild.config.mjs`、`docs/workflow.md` | **你的** vault 的 `.obsidian/plugins` 绝对路径 |
 | 3 | 开发工作区根目录 | 无 | `docs/*.md` 中以 `<DEV_ROOT>` 表示 | 你放插件源码的目录 |
-| 4 | git 身份 | `you@example.com`（已脱敏） | `LICENSE`、提交配置 | 你的 name/email |
+| 4 | git 身份 | `you@example.com`（已脱敏） | 提交配置（`git config user.*`） | 你的 name/email |
 | 5 | GitHub 仓库地址 | `<OWNER>/obsidian-agent-dev-kit` | 各文档链接 | 你 fork 后的地址 |
 | 6 | 插件 `id` / `name` / `description` | `cbugs-obsidian-plugin` / `CBugs Obsidian Plugin` | `template/manifest.json`、`package.json` | 你的插件信息；三者与 `versions.json` 保持一致 |
 | 7 | `minAppVersion` | `0.15.0` | `template/manifest.json` | 你要支持的最低 Obsidian 版本 |
