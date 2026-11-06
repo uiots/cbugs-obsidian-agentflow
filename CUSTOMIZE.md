@@ -10,7 +10,7 @@
 | 2 | vault 插件目录 | 无任何真实路径；模板用 `OBSIDIAN_PLUGINS_DIR` / `.vault-path` | `template/ob-sync.sh`、`template/esbuild.config.mjs`、`docs/workflow.md` | **你的** vault 的 `.obsidian/plugins` 绝对路径 |
 | 3 | 开发工作区根目录 | 无 | `docs/*.md` 中以 `<DEV_ROOT>` 表示 | 你放插件源码的目录 |
 | 4 | git 身份 | `you@example.com`（已脱敏） | 提交配置（`git config user.*`） | 你的 name/email |
-| 5 | GitHub 仓库地址 | `<OWNER>/obsidian-agent-dev-kit` | 各文档链接 | 你 fork 后的地址 |
+| 5 | GitHub 仓库地址 / 仓库名 | `uiots/cbugs-obsidian-agentflow`（`cbugs-` 是原作者开发品牌） | README 的 clone 命令 | 你 fork 后的地址；仓库名里的品牌前缀也一并换成你自己的 |
 | 6 | 插件 `id` / `name` / `description` | `cbugs-obsidian-plugin` / `CBugs Obsidian Plugin` | `template/manifest.json`、`package.json` | 你的插件信息；三者与 `versions.json` 保持一致 |
 | 7 | `minAppVersion` | `0.15.0` | `template/manifest.json` | 你要支持的最低 Obsidian 版本 |
 | 8 | 包管理器版本 | `pnpm@8.0.0`（模板示例） | `template/package.json`、`.npmrc` | 你本机版本（如 `pnpm@12`）；或改用 npm/yarn/bun，见下 |

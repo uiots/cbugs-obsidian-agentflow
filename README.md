@@ -1,6 +1,8 @@
 # Obsidian Agent Dev Kit
 
 > An agent-ready starter kit for Obsidian community plugin development: scaffold → build → auto-sync → hot-reload. Ships conventions, hard-won pitfalls, and an honest roadmap.
+>
+> 由 **cBugs** 开源；仓库名中的 `cbugs-` 是原作者的开发品牌，fork 后请换成你自己的（见 `CUSTOMIZE.md`）。
 
 ## 定位（请先读）
 
@@ -24,8 +26,8 @@ Obsidian 插件的产物只有三个文件（`main.js` / `manifest.json` / `styl
 ## 5 分钟上手
 
 ```bash
-git clone https://github.com/<OWNER>/obsidian-agent-dev-kit.git
-cd obsidian-agent-dev-kit
+git clone https://github.com/uiots/cbugs-obsidian-agentflow.git
+cd cbugs-obsidian-agentflow
 
 # 1) 先读定制清单（必读，别照单全收）
 cat CUSTOMIZE.md

@@ -1,6 +1,6 @@
 # 插件脚手架模板
 
-这是 `obsidian-agent-dev-kit` 的 `template/` 目录。**不要在这里装依赖或跑构建**——先整目录复制出去：
+这是 `cbugs-obsidian-agentflow` 的 `template/` 目录。**不要在这里装依赖或跑构建**——先整目录复制出去：
 
 ```bash
 cp -R template/ <DEV_ROOT>/<your-plugin-id>/
