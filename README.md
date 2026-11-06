@@ -4,34 +4,63 @@
 
 [简体中文](README.zh-CN.md) · [Documentation](docs/) · [Issues](https://github.com/uiots/cbugs-obsidian-agentflow/issues)
 
-**Status:** A personal learning and rapid-prototyping toolkit for individual developers. It codifies one working setup into a copyable starting point — not a production framework, an Obsidian standard, or a team convention. Extend and adapt it to your own project; see [Customize](#customize).
+🧪 **Status:** A personal learning and rapid-prototyping toolkit for individual developers — one working setup codified into a copyable starting point, **not** a production framework, an Obsidian standard, or a team convention. Extend and adapt it to your own project; see [Customize](#customize).
+
+---
+
+## Overview
+
+```mermaid
+flowchart LR
+    A["🧩 Source<br/>main.ts · styles.css"] --> B["⚙️ esbuild<br/>bundle → main.js"]
+    B --> C["📦 Three artifacts<br/>main.js · manifest.json · styles.css"]
+    C --> D["🔁 Sync<br/>ob-sync.sh / dev outfile"]
+    D --> E["📁 Vault<br/>.obsidian/plugins/&lt;id&gt;/"]
+    E --> F["🔥 hot-reload<br/>disable → enable"]
+    F --> G["✅ Obsidian<br/>plugin reloaded"]
+```
+
+> 💡 The **copy step** (🔁) is where most setups break. This repository exists to make it automatic.
 
 ## Why
 
-Obsidian loads only three artifacts from `<vault>/.obsidian/plugins/<id>/`: `main.js`, `manifest.json` and `styles.css`. Source usually lives elsewhere. `esbuild --watch` rebuilds `main.js` in the source directory, but nothing copies it into the vault — so the plugin never reloads. This repository turns that copy step into configuration and wires it to a hot-reload plugin that watches the vault.
+- 📦 [Obsidian](https://obsidian.md/) loads only **three artifacts** from `<vault>/.obsidian/plugins/<id>/`: `main.js`, `manifest.json`, `styles.css` — see [Build a plugin](https://docs.obsidian.md/Plugins/Getting+started/Build+a+plugin).
+- 📁 Source normally lives in a separate dev directory; the vault contains only build output.
+- ⚙️ [`esbuild --watch`](https://esbuild.github.io/) rebuilds `main.js` **locally** — nothing copies it into the vault.
+- 👉 The result: the plugin never reloads, so you keep toggling it in Settings, or debug a change that was never deployed.
+
+## Features
+
+- 🧩 **Copyable scaffold** — `template/` is a complete plugin project, not a snippet.
+- 📦 **Configurable sync** — `ob-sync.sh` reads `OBSIDIAN_PLUGINS_DIR` or `.vault-path` and **fails loudly** when the path is missing or wrong.
+- 🔁 **One-command dev loop** — `esbuild.config.mjs` writes `main.js` straight into the vault during `dev`.
+- 🔥 **Hot-reload included** — `hot-reload/` watches vault files; no `.hotreload` marker needed. [`pjeby/hot-reload`](https://github.com/pjeby/hot-reload) is an alternative.
+- 🧪 **Sandbox-verified** — build, sync and watch were exercised against a throwaway vault, never an active one.
+- 📚 **Honest docs** — conventions, 12 labelled pitfalls, a sourced tooling survey, and an explicit [roadmap](#project-status).
 
 ## What's included
 
-| Path | Contents |
-| --- | --- |
-| `AGENTS.md` | Entry instructions and hard constraints for coding agents |
-| `CUSTOMIZE.md` | **Required reading** — what to replace before adopting |
-| `docs/workflow.md` | Full scaffold → build → sync → reload → debug workflow |
-| `docs/conventions.md` | Naming, manifest, versioning and styling conventions |
-| `docs/pitfalls.md` | 12 pitfalls, each labelled Verified / Researched / Trade-off |
-| `docs/ecosystem-notes.md` | Community tooling survey with evidence grades |
-| `docs/roadmap.md` | What is **not** implemented (notably release / publishing) |
-| `rules/` | Original conventions, scrubbed; reference only |
-| `template/` | Copyable plugin scaffold (configurable `ob-sync.sh`, esbuild config) |
-| `hot-reload/` | Self-built hot-reload plugin source (alternative to `pjeby/hot-reload`) |
+| Path | What it is | Read it when |
+| --- | --- | --- |
+| [`AGENTS.md`](AGENTS.md) | Entry instructions + hard constraints for coding agents | You hand the repo to an agent |
+| [`CUSTOMIZE.md`](CUSTOMIZE.md) | What **must** be replaced before adopting | **First, always** |
+| [`docs/workflow.md`](docs/workflow.md) | Full scaffold → build → sync → reload → debug flow | Setting up / debugging |
+| [`docs/conventions.md`](docs/conventions.md) | Naming, manifest, versioning, styling | Writing a plugin |
+| [`docs/pitfalls.md`](docs/pitfalls.md) | 12 pitfalls: Verified / Researched / Trade-off | Something behaves oddly |
+| [`docs/ecosystem-notes.md`](docs/ecosystem-notes.md) | Community tooling survey + evidence grades | Choosing a toolchain |
+| [`docs/roadmap.md`](docs/roadmap.md) | What is **not** implemented | Planning a release |
+| [`rules/`](rules/) | Original conventions, scrubbed — reference only | Curious about the source setup |
+| [`template/`](template/) | Plugin scaffold | Starting a new plugin |
+| [`hot-reload/`](hot-reload/) | Self-built hot-reload plugin source | Enabling auto-reload |
 
-The `docs/` files are written in Chinese.
+> ⚠️ The `docs/` files are written in Chinese; this README has a full [简体中文](README.zh-CN.md) mirror.
 
 ## Requirements
 
-- Node.js 18+ and pnpm (npm / yarn / bun work too — see `docs/conventions.md`)
-- Obsidian desktop; the bundled hot-reload plugin uses desktop-only APIs
-- A writable **sandbox** vault for verification — never point this at your active vault
+- 🟢 Node.js 18+ and [`pnpm`](https://pnpm.io/) (npm / yarn / bun also work — see [`docs/conventions.md`](docs/conventions.md))
+- 🖥️ Obsidian **desktop** — the bundled hot-reload plugin uses desktop-only APIs
+- 🧪 A writable **sandbox vault** for verification — never your active vault
+- 📐 [`TypeScript`](https://www.typescriptlang.org/) (bundled via [`template/`](template/))
 
 ## Quick start
 
@@ -52,33 +81,50 @@ pnpm run sync                          # first deploy: copies the three artifact
 pnpm run dev                           # watch; writes main.js straight into the vault
 ```
 
-Then enable both your plugin and `hot-reload/` under Obsidian → Community plugins. Hand `AGENTS.md` to your coding agent and point it at `docs/workflow.md`.
+1️⃣ Read [`CUSTOMIZE.md`](CUSTOMIZE.md) — plugin ID, author, vault path, tool versions.
+2️⃣ Copy [`template/`](template/) into your own dev directory and install.
+3️⃣ Point the workflow at a **sandbox** vault via `.vault-path` or `OBSIDIAN_PLUGINS_DIR`.
+4️⃣ `pnpm run sync` once, then `pnpm run dev`; enable your plugin and `hot-reload/` in **Obsidian → Community plugins**.
+5️⃣ Hand [`AGENTS.md`](AGENTS.md) to your coding agent, pointing it at [`docs/workflow.md`](docs/workflow.md).
 
 ## How it works
 
-```
-source (main.ts, styles.css)
-  |  esbuild bundle — CJS; obsidian / electron / codemirror kept external
-  v
-main.js + manifest.json + styles.css
-  |  copy — ob-sync.sh, or dev-mode outfile written directly into the vault
-  v
-<vault>/.obsidian/plugins/<id>/
-  |  vault file change detected
-  v
-hot-reload -> disablePlugin(id) -> enablePlugin(id)
+```mermaid
+sequenceDiagram
+    participant Dev as 💻 Dev / Agent
+    participant ES as ⚙️ esbuild watch
+    participant V as 📁 Vault
+    participant HR as 🔥 hot-reload
+    participant O as ✅ Obsidian
+    Dev->>ES: edit main.ts
+    ES->>V: write main.js (mode A)
+    V-->>HR: raw file change
+    HR->>O: disablePlugin(id)
+    HR->>O: enablePlugin(id)
+    O-->>Dev: plugin reloaded
 ```
 
-- **Mode A (recommended):** set `OBSIDIAN_PLUGINS_DIR` (or `.vault-path`) and `pnpm run dev` writes `main.js` directly into the vault. One command closes the loop.
-- **Mode B:** `pnpm run build` produces locally, then `pnpm run sync` copies. A missing or non-existent path exits with an error instead of silently creating directories elsewhere.
+| | 🔁 Mode A — recommended | 📦 Mode B — manual |
+| --- | --- | --- |
+| Command | `pnpm run dev` | `pnpm run build` → `pnpm run sync` |
+| Where `main.js` lands | Directly in the vault | Locally, then copied |
+| Commands per change | **1** | **2** |
+| Best for | Daily development | Release build / no vault path configured |
+| Failure mode | Errors on bad path | Errors on bad path |
 
-Both modes are described in `docs/workflow.md`. The bundled hot-reload plugin listens on vault file changes and needs no `.hotreload` marker.
+Both modes are detailed in [`docs/workflow.md`](docs/workflow.md). The bundled hot-reload plugin listens on vault file changes via `vault.on("raw")` and needs no `.hotreload` marker.
 
 ## Customize
 
-`CUSTOMIZE.md` lists what to replace before adopting: plugin ID, display name and author; vault path; package manager and tool versions; version-control system; and the hot-reload implementation. `rules/` contains the original conventions (scrubbed) as a reference — they reflect one developer's environment, not platform requirements.
+[`CUSTOMIZE.md`](CUSTOMIZE.md) is required reading. Replace these before adopting:
 
-Treat `docs/` as a reference, combine it with your own stack, vault layout and release process, and re-verify anything labelled **Verified** on your own machine. Findings marked **【实测】** in the Chinese docs were measured on the original author's setup.
+- 🏷️ Plugin ID, display name and author (`template/manifest.json`, `package.json`, `main.ts`)
+- 📁 Vault path — `OBSIDIAN_PLUGINS_DIR` / `.vault-path`
+- 🧰 Package manager and tool versions (`pnpm@8`, `esbuild 0.17.3`, TypeScript)
+- 🔀 Version-control system (`jj` in the original setup)
+- 🔥 Hot-reload implementation — self-built vs [`pjeby/hot-reload`](https://github.com/pjeby/hot-reload)
+
+> 💡 Treat [`docs/`](docs/) as a reference, combine it with your own stack, vault layout and release process, and **re-verify** anything labelled **Verified** / **【实测】** on your machine. [`rules/`](rules/) reflects one developer's environment, not platform requirements.
 
 ## Project status
 
@@ -86,17 +132,44 @@ Treat `docs/` as a reference, combine it with your own stack, vault layout and r
 | --- | --- |
 | Scaffold, naming / manifest conventions | ✅ Ready |
 | `pnpm run build` | ✅ Verified in sandbox |
-| `ob-sync.sh` (configurable path, fails loudly) | ✅ Verified in sandbox |
+| `ob-sync.sh` — configurable path, fails loudly | ✅ Verified in sandbox |
 | Dev-mode direct write to vault | ✅ Verified in sandbox |
-| Hot-reload loop | ✅ Builds; source complete. In-app reload not UI-verified; uses internal APIs (see `docs/pitfalls.md`) |
+| Hot-reload loop | ⚠️ Builds; source complete. In-app reload **not UI-verified**; uses internal APIs — see [`docs/pitfalls.md`](docs/pitfalls.md) |
 | **Release / publishing** — tags, GitHub Actions, changelog, `versions.json`, community submission, BRAT | ❌ **Not implemented** |
 
-See `docs/roadmap.md`. This is a growing workflow, not a finished framework; do not assume the publishing stage exists.
+> 🚧 See [`docs/roadmap.md`](docs/roadmap.md). This is a growing workflow, not a finished framework — do not assume the publishing stage exists.
+
+## Documentation
+
+| 📖 | Document | Focus |
+| --- | --- | --- |
+| 🧭 | [`docs/workflow.md`](docs/workflow.md) | End-to-end loop + debug checklist |
+| 📐 | [`docs/conventions.md`](docs/conventions.md) | Conventions (generic vs original) |
+| 🐛 | [`docs/pitfalls.md`](docs/pitfalls.md) | 12 pitfalls with evidence grades |
+| 🔬 | [`docs/ecosystem-notes.md`](docs/ecosystem-notes.md) | Tooling survey + first-hand sources |
+| 🗺️ | [`docs/roadmap.md`](docs/roadmap.md) | Open work, incl. release stage |
+| 🤖 | [`AGENTS.md`](AGENTS.md) | Agent instructions |
+| 🔧 | [`CUSTOMIZE.md`](CUSTOMIZE.md) | Replacement checklist |
+
+## References
+
+| 🔗 | Source | Why it's here |
+| --- | --- | --- |
+| 🧩 | [`obsidianmd/obsidian-sample-plugin`](https://github.com/obsidianmd/obsidian-sample-plugin) | Upstream baseline: `esbuild` + TypeScript |
+| ⚙️ | [`esbuild`](https://esbuild.github.io/) | Bundler used by `template/` |
+| 📐 | [Plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines) | Community review rules |
+| 🔥 | [`pjeby/hot-reload`](https://github.com/pjeby/hot-reload) | Alternative hot-reload plugin |
+| 🚀 | [`obsidianmd/obsidian-workflows`](https://github.com/obsidianmd/obsidian-workflows) | Release automation (**not implemented**) |
+| 📏 | [Standard Readme](https://github.com/richardlitt/standard-readme) | Structure followed by this README |
 
 ## Contributing
 
-Issues and PRs are welcome. When adding a pitfall, label it **Verified** (with OS, Obsidian and tool versions) or **Inferred** — see `docs/pitfalls.md`. Never commit secrets, real vault paths, `main.js` or `node_modules/`.
+Issues and PRs are welcome 🙌
+
+- ✅ Label a pitfall **Verified** (with OS / Obsidian / tool versions) or **Inferred** — see [`docs/pitfalls.md`](docs/pitfalls.md).
+- 🚫 Never commit secrets, real vault paths, `main.js` or `node_modules/`.
+- 🧪 Verify changes against a sandbox vault, and note what you actually ran.
 
 ## License
 
-MIT — see `LICENSE`.
+MIT — see [`LICENSE`](LICENSE).
