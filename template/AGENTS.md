@@ -23,4 +23,4 @@ pnpm run sync     # = ./ob-sync.sh，手动搬三件套
 - 不要提交 `main.js` / `node_modules/` / `.vault-path` / 密钥。
 - 不要 `git add -A`。
 - 样式走 `styles.css`，不用 `injectStyles()`；命令必带 icon。
-- release / 发布流程**尚未实现**（见套件 `docs/roadmap.md`）。
+- 本套件**不包含** release / 发布部分；这是范围界定，不是待办（见套件 `docs/roadmap.md`）。

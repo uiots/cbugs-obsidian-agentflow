@@ -12,7 +12,7 @@
 2. **不要提交 `.vault-path`、真实绝对路径、密钥、`node_modules/`、`main.js` 产物**。`.gitignore` 已列。
 3. **不要 `git add -A`**。工作区可能混有其他 Agent 的未提交改动，按主题分组提交。
 4. **`template/` 是模板，不是运行目录**。别在 `template/` 里装依赖或跑构建；先复制到新目录。
-5. **不要假设 release 流程存在**。tag / GH Actions / 发布 / 社区目录提交尚未实现，见 `docs/roadmap.md`。
+5. **本仓库不包含 release / 发布部分**。tag / GH Actions / changelog / 社区目录提交等发布层内容都不在这个开源仓库的范围内（范围界定，不是待办），见 `docs/roadmap.md`。
 6. **品牌名与路径必须按 `CUSTOMIZE.md` 替换**，不要把 `cbugs-` / `CBugs` 当成标准输出给使用者。
 
 ## 标准工作流

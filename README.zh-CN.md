@@ -36,7 +36,7 @@ flowchart LR
 - 🔁 **一条命令的开发闭环**——`dev` 模式下 `esbuild.config.mjs` 把 `main.js` 直接写进 vault。
 - 🔥 **自带热重载**——`hot-reload/` 监听 vault 文件，不需要 `.hotreload` 标记；[`pjeby/hot-reload`](https://github.com/pjeby/hot-reload) 是备选。
 - 🧪 **sandbox 实跑验证**——构建、同步、watch 都在一次性 vault 上跑过，没碰活跃库。
-- 📚 **诚实的文档**——约定、12 条标注来源的踩坑、有证据等级的调研，以及明确的[路线图](#项目状态)。
+- 📚 **诚实的文档**——约定、12 条标注来源的踩坑、有证据等级的调研，以及明确的[范围说明](docs/roadmap.md)。
 
 ## 仓库内容
 
@@ -48,7 +48,7 @@ flowchart LR
 | [`docs/conventions.md`](docs/conventions.md) | 命名、manifest、版本、样式约定 | 写插件时 |
 | [`docs/pitfalls.md`](docs/pitfalls.md) | 12 条踩坑：【实测】/【调研】/【取舍】 | 行为反常时 |
 | [`docs/ecosystem-notes.md`](docs/ecosystem-notes.md) | 社区工具链调研 + 证据等级 | 选技术栈时 |
-| [`docs/roadmap.md`](docs/roadmap.md) | **尚未实现**的部分 | 规划发布时 |
+| [`docs/roadmap.md`](docs/roadmap.md) | 范围界定 + 可选扩展方向 | 想知道仓库不包含什么 |
 | [`rules/`](rules/) | 已脱敏的原始规范，仅作参考 | 想了解这套配置的来历 |
 | [`template/`](template/) | 插件脚手架 | 新建插件时 |
 | [`hot-reload/`](hot-reload/) | 自研热重载插件源码 | 启用自动重载时 |
@@ -135,9 +135,7 @@ sequenceDiagram
 | `ob-sync.sh`（路径可配置、缺失报错） | ✅ sandbox 实跑验证 |
 | dev 模式直写 vault | ✅ sandbox 实跑验证 |
 | 热重载闭环 | ⚠️ 可构建、源码齐备；**实际重载未在 Obsidian 内驱动验证**，依赖内部 API——见 [`docs/pitfalls.md`](docs/pitfalls.md) |
-| **Release / 发布**——tag、GitHub Actions、changelog、`versions.json`、社区目录提交、BRAT | ❌ **未完成** |
-
-> 🚧 详见 [`docs/roadmap.md`](docs/roadmap.md)。这是一套仍在成长的工作流，不是成品框架；请勿假设发布阶段已经存在。
+> 📌 **范围说明：** 本仓库覆盖的是开发闭环——脚手架 → 构建 → 自动同步 → 热重载 → debug，**不包含** release / 发布部分（tag、GitHub Actions、changelog、`versions.json`、社区目录提交、BRAT）。这是范围界定，不是待办事项：既不需要贡献者来填补，也不存在「等我们自己补上」。若你要在自己的项目里接发布，可参考 [`docs/roadmap.md`](docs/roadmap.md) 里的范围说明与社区现成做法。
 
 ## 文档
 
@@ -147,7 +145,7 @@ sequenceDiagram
 | 📐 | [`docs/conventions.md`](docs/conventions.md) | 约定（通用版 vs 原始规范） |
 | 🐛 | [`docs/pitfalls.md`](docs/pitfalls.md) | 12 条踩坑与证据等级 |
 | 🔬 | [`docs/ecosystem-notes.md`](docs/ecosystem-notes.md) | 工具链调研 + 一手来源 |
-| 🗺️ | [`docs/roadmap.md`](docs/roadmap.md) | 未完成事项，含发布阶段 |
+| 🗺️ | [`docs/roadmap.md`](docs/roadmap.md) | 范围界定 + 可选扩展方向 |
 | 🤖 | [`AGENTS.md`](AGENTS.md) | Agent 指令 |
 | 🔧 | [`CUSTOMIZE.md`](CUSTOMIZE.md) | 替换清单 |
 
@@ -159,7 +157,7 @@ sequenceDiagram
 | ⚙️ | [`esbuild`](https://esbuild.github.io/) | `template/` 使用的打包器 |
 | 📐 | [Plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines) | 社区审核规则 |
 | 🔥 | [`pjeby/hot-reload`](https://github.com/pjeby/hot-reload) | 备选热重载插件 |
-| 🚀 | [`obsidianmd/obsidian-workflows`](https://github.com/obsidianmd/obsidian-workflows) | 发布自动化（**未实现**） |
+| 🚀 | [`obsidianmd/obsidian-workflows`](https://github.com/obsidianmd/obsidian-workflows) | 发布自动化——不在本仓库范围内 |
 | 📏 | [Standard Readme](https://github.com/richardlitt/standard-readme) | 本 README 遵循的结构规范 |
 
 ## 贡献

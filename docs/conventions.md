@@ -46,4 +46,4 @@
 | 打包 | esbuild（`esbuild.config.mjs`） | Rollup / Vite / `Bun.build()`（注意层界，见 `pitfalls.md`） |
 | 类型 | TypeScript，`tsc -noEmit` | — |
 | 版本控制 | jj（原作者）或 git | — |
-| 发布 | **未实现** | 见 `roadmap.md` |
+| 发布 | **不在本仓库范围内** | 见 `roadmap.md` 的范围说明 |

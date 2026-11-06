@@ -71,8 +71,8 @@ Rolldown（Rust、Oxc、Vite 7 正迁移、VoidZero 背书）很热，但 Obsidi
 
 → 见根 `AGENTS.md` 硬约束。
 
-## 12. 【实测】release / 发布阶段尚未完成
+## 12. 【实测】本仓库不包含 release / 发布部分
 
-tag 触发、GH Actions draft release、`versions.json` 自动 bump、changelog、manifest-beta、社区目录提交、BRAT……本套件**都还没实现**。当前 `version-bump.mjs` 只是本地版本同步脚本。
+tag 触发、GH Actions draft release、`versions.json` 自动 bump、changelog、manifest-beta、社区目录提交、BRAT……这些发布层内容**不在这个开源仓库的范围内**。当前 `version-bump.mjs` 只是本地版本同步脚本。
 
-→ 见 `roadmap.md`，别假设它存在。
+这是范围界定而非待办：不需要谁来填补，也不存在「等作者补上」。若你要在自己的项目里接发布，见 `roadmap.md` 里现成做法的参考信息。

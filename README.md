@@ -36,7 +36,7 @@ flowchart LR
 - 🔁 **One-command dev loop** — `esbuild.config.mjs` writes `main.js` straight into the vault during `dev`.
 - 🔥 **Hot-reload included** — `hot-reload/` watches vault files; no `.hotreload` marker needed. [`pjeby/hot-reload`](https://github.com/pjeby/hot-reload) is an alternative.
 - 🧪 **Sandbox-verified** — build, sync and watch were exercised against a throwaway vault, never an active one.
-- 📚 **Honest docs** — conventions, 12 labelled pitfalls, a sourced tooling survey, and an explicit [roadmap](#project-status).
+- 📚 **Honest docs** — conventions, 12 labelled pitfalls, a sourced tooling survey, and an explicit [scope note](docs/roadmap.md).
 
 ## What's included
 
@@ -48,7 +48,7 @@ flowchart LR
 | [`docs/conventions.md`](docs/conventions.md) | Naming, manifest, versioning, styling | Writing a plugin |
 | [`docs/pitfalls.md`](docs/pitfalls.md) | 12 pitfalls: Verified / Researched / Trade-off | Something behaves oddly |
 | [`docs/ecosystem-notes.md`](docs/ecosystem-notes.md) | Community tooling survey + evidence grades | Choosing a toolchain |
-| [`docs/roadmap.md`](docs/roadmap.md) | What is **not** implemented | Planning a release |
+| [`docs/roadmap.md`](docs/roadmap.md) | Scope boundaries + optional extensions | Curious about what is outside this repo |
 | [`rules/`](rules/) | Original conventions, scrubbed — reference only | Curious about the source setup |
 | [`template/`](template/) | Plugin scaffold | Starting a new plugin |
 | [`hot-reload/`](hot-reload/) | Self-built hot-reload plugin source | Enabling auto-reload |
@@ -135,9 +135,7 @@ Both modes are detailed in [`docs/workflow.md`](docs/workflow.md). The bundled h
 | `ob-sync.sh` — configurable path, fails loudly | ✅ Verified in sandbox |
 | Dev-mode direct write to vault | ✅ Verified in sandbox |
 | Hot-reload loop | ⚠️ Builds; source complete. In-app reload **not UI-verified**; uses internal APIs — see [`docs/pitfalls.md`](docs/pitfalls.md) |
-| **Release / publishing** — tags, GitHub Actions, changelog, `versions.json`, community submission, BRAT | ❌ **Not implemented** |
-
-> 🚧 See [`docs/roadmap.md`](docs/roadmap.md). This is a growing workflow, not a finished framework — do not assume the publishing stage exists.
+> 📌 **Scope:** This repository covers the development loop — scaffold → build → auto-sync → hot-reload → debug. It **does not include** a release / publishing stage (tags, GitHub Actions, changelog, `versions.json`, community plugin submission, BRAT). This is a scope boundary, not a pending task: nothing here is waiting to be filled in, by contributors or by the author. See [`docs/roadmap.md`](docs/roadmap.md) for scope boundaries and community starting points if you want to wire up publishing in your own project.
 
 ## Documentation
 
@@ -147,7 +145,7 @@ Both modes are detailed in [`docs/workflow.md`](docs/workflow.md). The bundled h
 | 📐 | [`docs/conventions.md`](docs/conventions.md) | Conventions (generic vs original) |
 | 🐛 | [`docs/pitfalls.md`](docs/pitfalls.md) | 12 pitfalls with evidence grades |
 | 🔬 | [`docs/ecosystem-notes.md`](docs/ecosystem-notes.md) | Tooling survey + first-hand sources |
-| 🗺️ | [`docs/roadmap.md`](docs/roadmap.md) | Open work, incl. release stage |
+| 🗺️ | [`docs/roadmap.md`](docs/roadmap.md) | Scope boundaries + optional extensions |
 | 🤖 | [`AGENTS.md`](AGENTS.md) | Agent instructions |
 | 🔧 | [`CUSTOMIZE.md`](CUSTOMIZE.md) | Replacement checklist |
 
@@ -159,7 +157,7 @@ Both modes are detailed in [`docs/workflow.md`](docs/workflow.md). The bundled h
 | ⚙️ | [`esbuild`](https://esbuild.github.io/) | Bundler used by `template/` |
 | 📐 | [Plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines) | Community review rules |
 | 🔥 | [`pjeby/hot-reload`](https://github.com/pjeby/hot-reload) | Alternative hot-reload plugin |
-| 🚀 | [`obsidianmd/obsidian-workflows`](https://github.com/obsidianmd/obsidian-workflows) | Release automation (**not implemented**) |
+| 🚀 | [`obsidianmd/obsidian-workflows`](https://github.com/obsidianmd/obsidian-workflows) | Release automation — outside this repo's scope |
 | 📏 | [Standard Readme](https://github.com/richardlitt/standard-readme) | Structure followed by this README |
 
 ## Contributing

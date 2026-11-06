@@ -50,4 +50,4 @@ grep -rn "<DEV_ROOT>\|/path/to/your\|<OWNER>" . | head
 
 - `docs/pitfalls.md` 里标 **实测** 的，是原作者在本机读源码 / 跑命令验证过的；换成你的环境后结论可能不同，请自行复验。
 - `docs/ecosystem-notes.md` 明确标了证据等级（硬证据 / 搜索摘要 / 未获取），请按等级取用。
-- `docs/roadmap.md` 列的是**没做的**，不是「未来一定有」。
+- `docs/roadmap.md` 说明的是**本仓库不包含什么**（范围界定），不是待办清单，也不是「未来一定有」的承诺。
