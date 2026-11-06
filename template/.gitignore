@@ -1,0 +1,10 @@
+node_modules/
+.vault-path
+main.js
+*.js.map
+build/
+.DS_Store
+.claude/
+.serena/
+.git/
+.jj/

@@ -1,0 +1,9 @@
+{
+	"id": "cbugs-hot-reload",
+	"name": "CBugs Hot Reload",
+	"version": "0.1.0",
+	"minAppVersion": "0.15.0",
+	"description": "Automatically reload plugins during development when files change",
+	"author": "cBugs",
+	"isDesktopOnly": false
+}

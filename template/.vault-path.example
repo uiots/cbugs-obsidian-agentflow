@@ -1,0 +1,3 @@
+# 复制成 .vault-path 并改成你自己的真实路径（该文件已被 .gitignore 忽略）
+# 也可以用环境变量：export OBSIDIAN_PLUGINS_DIR=/path/to/vault/.obsidian/plugins
+/path/to/your/vault/.obsidian/plugins

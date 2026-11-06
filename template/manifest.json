@@ -1,0 +1,9 @@
+{
+	"id": "cbugs-obsidian-plugin",
+	"name": "CBugs Obsidian Plugin",
+	"version": "0.1.0",
+	"minAppVersion": "0.15.0",
+	"description": "A generic obsidian plugin template for cBugs development",
+	"author": "cBugs",
+	"isDesktopOnly": false
+}

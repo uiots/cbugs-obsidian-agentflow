@@ -1,0 +1,12 @@
+node_modules/
+.vault-path
+*.log
+.DS_Store
+main.js
+*.js.map
+build/
+dist/
+.claude/
+.serena/
+.cursor/
+.history/
