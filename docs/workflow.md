@@ -97,4 +97,4 @@ OBSIDIAN_PLUGINS_DIR="$SB/vault/.obsidian/plugins" ./ob-sync.sh
 ls "$SB/vault/.obsidian/plugins/my-plugin"   # 应有三件套
 ```
 
-仓库 CI 之外，本套件的作者就是用这个流程实跑验证的（见 `README.md` 成熟度表）。
+仓库 CI 之外，本套件的作者就是用这个流程实跑验证的（见 `README.md` 的 Project status 表）。

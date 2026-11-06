@@ -1,85 +1,102 @@
-# Obsidian Agent Dev Kit
+# cbugs-obsidian-agentflow
 
-> An agent-ready starter kit for Obsidian community plugin development: scaffold → build → auto-sync → hot-reload. Ships conventions, hard-won pitfalls, and an honest roadmap.
->
-> 由 **cBugs** 开源；仓库名中的 `cbugs-` 是原作者的开发品牌，fork 后请换成你自己的（见 `CUSTOMIZE.md`）。
+> An agent-ready development workflow for Obsidian community plugins: scaffold → build → auto-sync → hot-reload.
 
-## 定位（请先读）
+[简体中文](README.zh-CN.md) · [Documentation](docs/) · [Issues](https://github.com/uiots/cbugs-obsidian-agentflow/issues)
 
-**这是一个独立开发者用于个人验证与快速实践的工具，也是一个学习项目。** 它把一套「能跑通」的 Obsidian 插件开发工作流沉淀成可复制的起点，**不是**生产级框架、Obsidian 官方标准或团队规范。
+**Status:** A personal learning and rapid-prototyping toolkit for individual developers. It codifies one working setup into a copyable starting point — not a production framework, an Obsidian standard, or a team convention. Extend and adapt it to your own project; see [Customize](#customize).
 
-- 面向个人 / 小团队快速试错与学习；不承诺覆盖生产发布、多人协作、长期维护的完整需求。
-- 仓库里的品牌名、vault 路径、工具链版本、版本控制系统，都是原作者**自己环境里的实际选择**（见 `CUSTOMIZE.md`）。
-- **推荐按需扩展**：请把它和你自己的项目结构、技术栈、vault 布局、发布流程结合起来调整。`CUSTOMIZE.md` 与 `docs/` 是参考，不是必须遵守的规矩。
-- 标【实测】的结论来自原作者本机，换环境请自行复验；`docs/roadmap.md` 明确列出还没做的部分（尤其 release / 发布阶段）。
+## Why
 
-一句话：**clone 之后请把它改造成你自己的东西，而不是全盘采纳。**
+Obsidian loads only three artifacts from `<vault>/.obsidian/plugins/<id>/`: `main.js`, `manifest.json` and `styles.css`. Source usually lives elsewhere. `esbuild --watch` rebuilds `main.js` in the source directory, but nothing copies it into the vault — so the plugin never reloads. This repository turns that copy step into configuration and wires it to a hot-reload plugin that watches the vault.
 
-一套**给 coding agent 用的** Obsidian 插件开发套件。
+## What's included
 
-它本身不是插件，而是一套「开发模式 + 可复制资产」：clone 之后把 `template/` 复制成新插件，把根目录的 `AGENTS.md` 交给你的 Agent，就能快速搭起**脚手架 → 构建 → 自动同步到 vault → 自动热重载 → debug** 这一整套闭环。
+| Path | Contents |
+| --- | --- |
+| `AGENTS.md` | Entry instructions and hard constraints for coding agents |
+| `CUSTOMIZE.md` | **Required reading** — what to replace before adopting |
+| `docs/workflow.md` | Full scaffold → build → sync → reload → debug workflow |
+| `docs/conventions.md` | Naming, manifest, versioning and styling conventions |
+| `docs/pitfalls.md` | 12 pitfalls, each labelled Verified / Researched / Trade-off |
+| `docs/ecosystem-notes.md` | Community tooling survey with evidence grades |
+| `docs/roadmap.md` | What is **not** implemented (notably release / publishing) |
+| `rules/` | Original conventions, scrubbed; reference only |
+| `template/` | Copyable plugin scaffold (configurable `ob-sync.sh`, esbuild config) |
+| `hot-reload/` | Self-built hot-reload plugin source (alternative to `pjeby/hot-reload`) |
 
-## 这套东西解决什么
+The `docs/` files are written in Chinese.
 
-Obsidian 插件的产物只有三个文件（`main.js` / `manifest.json` / `styles.css`），但源码通常在别处。常见痛点是：改了代码、`esbuild --watch` 也重建了，插件却没重载——因为产物没进 vault，或者热重载没监听到。本仓库把这段搬运做成配置而不是人工步骤。
+## Requirements
 
-## 5 分钟上手
+- Node.js 18+ and pnpm (npm / yarn / bun work too — see `docs/conventions.md`)
+- Obsidian desktop; the bundled hot-reload plugin uses desktop-only APIs
+- A writable **sandbox** vault for verification — never point this at your active vault
+
+## Quick start
 
 ```bash
 git clone https://github.com/uiots/cbugs-obsidian-agentflow.git
 cd cbugs-obsidian-agentflow
 
-# 1) 先读定制清单（必读，别照单全收）
-cat CUSTOMIZE.md
+cat CUSTOMIZE.md                       # required: replace before adopting
 
-# 2) 复制脚手架
-cp -R template/ ../my-plugin && cd ../my-plugin
-
-# 3) 告诉它你的 vault 在哪（二选一）
-echo "/path/to/your/vault/.obsidian/plugins" > .vault-path
-# 或： export OBSIDIAN_PLUGINS_DIR=/path/to/your/vault/.obsidian/plugins
-
-# 4) 装依赖 + 起 watch（产物直接写进 vault）
+cp -R template/ ../my-plugin
+cd ../my-plugin
 pnpm install
-pnpm run dev
 
-# 5) 在 Obsidian 里启用 hot-reload/ 这个插件（见 docs/workflow.md）
+echo "/path/to/your/vault/.obsidian/plugins" > .vault-path
+# or: export OBSIDIAN_PLUGINS_DIR=/path/to/your/vault/.obsidian/plugins
+
+pnpm run sync                          # first deploy: copies the three artifacts
+pnpm run dev                           # watch; writes main.js straight into the vault
 ```
 
-然后把 `AGENTS.md` 指给你的 Agent，让它按 `docs/workflow.md` 干活。
+Then enable both your plugin and `hot-reload/` under Obsidian → Community plugins. Hand `AGENTS.md` to your coding agent and point it at `docs/workflow.md`.
 
-## 目录
+## How it works
 
-| 路径 | 作用 |
-|---|---|
-| `CUSTOMIZE.md` | **必读**。哪些必须替换、哪些不建议照抄 |
-| `AGENTS.md` | 给 coding agent 的入口指令与硬约束 |
-| `docs/workflow.md` | 整套开发 / debug / 同步 / 热重载流程 |
-| `docs/conventions.md` | 命名、manifest、版本、样式等约定（通用化版） |
-| `docs/pitfalls.md` | 踩坑总结（含实测证据） |
-| `docs/ecosystem-notes.md` | 社区技术栈调研结论与一手来源 |
-| `docs/roadmap.md` | **未完成**事项，尤其是 release / 发布阶段 |
-| `rules/` | 原始 cbugs 规范文档（已脱敏，含本机口味，仅作参考） |
-| `template/` | 可直接复制的插件脚手架 |
-| `hot-reload/` | 自研热重载插件源码（与 pjeby/hot-reload 二选一） |
+```
+source (main.ts, styles.css)
+  |  esbuild bundle — CJS; obsidian / electron / codemirror kept external
+  v
+main.js + manifest.json + styles.css
+  |  copy — ob-sync.sh, or dev-mode outfile written directly into the vault
+  v
+<vault>/.obsidian/plugins/<id>/
+  |  vault file change detected
+  v
+hot-reload -> disablePlugin(id) -> enablePlugin(id)
+```
 
-## 当前成熟度（诚实声明）
+- **Mode A (recommended):** set `OBSIDIAN_PLUGINS_DIR` (or `.vault-path`) and `pnpm run dev` writes `main.js` directly into the vault. One command closes the loop.
+- **Mode B:** `pnpm run build` produces locally, then `pnpm run sync` copies. A missing or non-existent path exits with an error instead of silently creating directories elsewhere.
 
-| 阶段 | 状态 |
-|---|---|
-| 脚手架 / 命名 / manifest 约定 | ✅ 可用 |
-| `pnpm run build` 产出三件套 | ✅ 实跑验证 |
-| `ob-sync.sh` 自动同步（路径可配置） | ✅ 实跑验证（sandbox） |
-| `esbuild --watch` 直写 vault | ✅ 实跑验证 |
-| hot-reload 自动重载闭环 | ✅ 源码齐备、`pnpm run build` 实跑通过；**实际重载未在 Obsidian 内驱动验证**（未操作 UI），依赖内部 API 见 `pitfalls.md` |
-| **release / 发布（tag、GH Actions、changelog、versions.json、社区目录提交、BRAT）** | ❌ **未完成**，见 `docs/roadmap.md` |
+Both modes are described in `docs/workflow.md`. The bundled hot-reload plugin listens on vault file changes and needs no `.hotreload` marker.
 
-**这是一套还在成长的工作流，不是成品框架。** 请勿假设它覆盖发布阶段。
+## Customize
 
-## 不要全采纳
+`CUSTOMIZE.md` lists what to replace before adopting: plugin ID, display name and author; vault path; package manager and tool versions; version-control system; and the hot-reload implementation. `rules/` contains the original conventions (scrubbed) as a reference — they reflect one developer's environment, not platform requirements.
 
-见顶部「定位」小节与 `CUSTOMIZE.md`：品牌名、路径、工具链都是原作者的实际选择，不是标准。
+Treat `docs/` as a reference, combine it with your own stack, vault layout and release process, and re-verify anything labelled **Verified** on your own machine. Findings marked **【实测】** in the Chinese docs were measured on the original author's setup.
+
+## Project status
+
+| Stage | Status |
+| --- | --- |
+| Scaffold, naming / manifest conventions | ✅ Ready |
+| `pnpm run build` | ✅ Verified in sandbox |
+| `ob-sync.sh` (configurable path, fails loudly) | ✅ Verified in sandbox |
+| Dev-mode direct write to vault | ✅ Verified in sandbox |
+| Hot-reload loop | ✅ Builds; source complete. In-app reload not UI-verified; uses internal APIs (see `docs/pitfalls.md`) |
+| **Release / publishing** — tags, GitHub Actions, changelog, `versions.json`, community submission, BRAT | ❌ **Not implemented** |
+
+See `docs/roadmap.md`. This is a growing workflow, not a finished framework; do not assume the publishing stage exists.
+
+## Contributing
+
+Issues and PRs are welcome. When adding a pitfall, label it **Verified** (with OS, Obsidian and tool versions) or **Inferred** — see `docs/pitfalls.md`. Never commit secrets, real vault paths, `main.js` or `node_modules/`.
 
 ## License
 
-MIT — 见 `LICENSE`。欢迎 issue / PR 补充你自己的踩坑。
+MIT — see `LICENSE`.
